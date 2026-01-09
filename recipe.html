@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe - The Glutenberg Bible</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@400;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="js/recipes_db.js"></script>
+    <script src="js/art_generator.js"></script>
+    
+    <style>
+        :root {
+            --parchment: #F4F1E8;
+            --vellum: #E8E0D0;
+            --sepia: #3C2415;
+            --burgundy: #722F37;
+            --gold: #B8860B;
+            --sage: #87A96B;
+            --dusty-rose: #D4A574;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            font-family: 'Crimson Text', serif;
+            background-color: #2b1d16;
+            background-image: url('https://www.transparenttextures.com/patterns/black-scales.png');
+            color: var(--sepia);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .book-container {
+            background: linear-gradient(to right, #e6dcc3, #F4F1E8 15%, #F4F1E8 85%, #e6dcc3);
+            width: 100%;
+            max-width: 1000px;
+            min-height: 90vh;
+            box-shadow: 
+                inset 20px 0 50px rgba(0,0,0,0.1),
+                inset -20px 0 50px rgba(0,0,0,0.1),
+                0 0 20px rgba(0,0,0,0.5),
+                0 0 0 10px #3d2a20;
+            position: relative;
+            padding: 4rem;
+            border-radius: 4px;
+        }
+
+        .page-content {
+            border: 2px solid var(--gold);
+            padding: 2rem;
+            height: 100%;
+            position: relative;
+        }
+
+        .page-corner-tl {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            border-top: 3px solid var(--burgundy);
+            border-left: 3px solid var(--burgundy);
+        }
+
+        .page-corner-br {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+            border-bottom: 3px solid var(--burgundy);
+            border-right: 3px solid var(--burgundy);
+        }
+
+        .recipe-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .recipe-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--burgundy);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .recipe-quote {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            color: var(--sage);
+            margin-bottom: 2rem;
+        }
+
+        .recipe-art-container {
+            width: 100%;
+            height: 250px;
+            margin: 2rem 0;
+            border: 4px double var(--gold);
+            position: relative;
+            overflow: hidden;
+            background: #2b231d;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: var(--sepia);
+            margin-bottom: 2rem;
+            border-top: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            padding: 1rem 0;
+        }
+
+        .recipe-body {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 3rem;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            color: var(--burgundy);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--sage);
+            display: inline-block;
+        }
+
+        .ingredients-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ingredients-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .ingredients-list li::before {
+            content: "❧";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        .instructions-list {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+        }
+
+        .instructions-list li {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .instructions-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: -0.2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--burgundy);
+            font-weight: bold;
+        }
+
+        .recipe-tips {
+            margin-top: 2rem;
+            background: rgba(135, 169, 107, 0.1);
+            padding: 1.5rem;
+            border-left: 4px solid var(--sage);
+            font-style: italic;
+        }
+
+        .page-nav {
+            position: absolute;
+            bottom: -3rem;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--parchment);
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            opacity: 1;
+            color: var(--gold);
+        }
+
+        .back-home {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .book-container { padding: 1rem; }
+            .recipe-body { grid-template-columns: 1fr; }
+            .page-nav { bottom: -6rem; flex-direction: column; align-items: center; gap: 1rem; }
+            .recipe-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <a href="recipes.html" class="nav-btn back-home">← Back to Kitchen</a>
+
+    <div class="book-container fade-in">
+        <div class="page-content">
+            <div class="page-corner-tl"></div>
+            <div class="page-corner-br"></div>
+
+            <header class="recipe-header">
+                <h1 id="rTitle" class="recipe-title">Loading Recipe...</h1>
+                <p id="rQuote" class="recipe-quote"></p>
+                
+                <div class="recipe-meta">
+                    <span id="rTime"></span>
+                    <span id="rServings"></span>
+                    <span id="rDifficulty"></span>
+                </div>
+
+                <div class="recipe-art-container">
+                    <canvas id="recipeCanvas" width="800" height="250"></canvas>
+                </div>
+            </header>
+
+            <div class="recipe-body">
+                <div class="ingredients-column">
+                    <h3 class="section-title">Ingredients</h3>
+                    <ul id="rIngredients" class="ingredients-list"></ul>
+                </div>
+
+                <div class="instructions-column">
+                    <h3 class="section-title">Preparation</h3>
+                    <ol id="rInstructions" class="instructions-list"></ol>
+                    
+                    <div id="rTipsContainer" class="recipe-tips" style="display: none;">
+                        <strong>Scribe's Tip:</strong> <span id="rTips"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="page-nav">
+                <a id="prevBtn" href="#" class="nav-btn" style="visibility: hidden;">← Previous Folio</a>
+                <span class="nav-btn" style="cursor: default; color: var(--sepia);">Page <span id="rId"></span></span>
+                <a id="nextBtn" href="#" class="nav-btn" style="visibility: hidden;">Next Folio →</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const recipeId = parseInt(urlParams.get('id')) || 1;
+            
+            loadRecipe(recipeId);
+            
+            // Animation
+            anime({
+                targets: '.book-container',
+                translateY: [50, 0],
+                opacity: [0, 1],
+                duration: 1000,
+                easing: 'easeOutExpo'
+            });
+        });
+
+        function loadRecipe(id) {
+            const recipe = getRecipeById(id);
+            const nav = getAdjacentRecipes(id);
+
+            if (!recipe) {
+                document.getElementById('rTitle').textContent = "Recipe Not Found";
+                return;
+            }
+
+            // Populate Content
+            document.getElementById('rTitle').textContent = recipe.title;
+            document.getElementById('rQuote').textContent = `"${recipe.quote}"`;
+            document.getElementById('rTime').innerHTML = `⏱️ ${recipe.time}`;
+            document.getElementById('rServings').innerHTML = `🍽️ ${recipe.servings}`;
+            document.getElementById('rDifficulty').innerHTML = `⭐ ${recipe.difficulty}`;
+            document.getElementById('rId').textContent = recipe.id;
+
+            // Ingredients
+            const ingList = document.getElementById('rIngredients');
+            ingList.innerHTML = recipe.ingredients.map(ing => `<li>${ing}</li>`).join('');
+
+            // Instructions
+            const instList = document.getElementById('rInstructions');
+            instList.innerHTML = recipe.instructions.map(step => `<li>${step}</li>`).join('');
+
+            // Tips
+            if (recipe.tips) {
+                document.getElementById('rTips').textContent = recipe.tips;
+                document.getElementById('rTipsContainer').style.display = 'block';
+            }
+
+            // Generate Art
+            const artist = new ArtGenerator();
+            artist.generate(recipe.imageSeed || recipe.title, 'recipeCanvas');
+
+            // Navigation
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            if (nav.prev) {
+                prevBtn.href = `recipe.html?id=${nav.prev.id}`;
+                prevBtn.style.visibility = 'visible';
+                prevBtn.innerHTML = `← ${nav.prev.title.split(':')[0]}`;
+            }
+
+            if (nav.next) {
+                nextBtn.href = `recipe.html?id=${nav.next.id}`;
+                nextBtn.style.visibility = 'visible';
+                nextBtn.innerHTML = `${nav.next.title.split(':')[0]} →`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Glutenberg Bible - Ancient Wisdom for Modern Gluten-Free Living</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@400;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.3.2/pixi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    
+    <style>
+        :root {
+            --parchment: #F4F1E8;
+            --vellum: #E8E0D0;
+            --sepia: #3C2415;
+            --burgundy: #722F37;
+            --gold: #B8860B;
+            --sage: #87A96B;
+            --dusty-rose: #D4A574;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, var(--parchment) 0%, var(--vellum) 100%);
+            color: var(--sepia);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .manuscript-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .illuminated-border {
+            position: absolute;
+            border: 3px solid var(--gold);
+            border-radius: 8px;
+            background: linear-gradient(45deg, transparent 30%, rgba(184, 134, 11, 0.1) 50%, transparent 70%);
+            box-shadow: 0 0 20px rgba(184, 134, 11, 0.3);
+        }
+        
+        .drop-cap {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--burgundy);
+            float: left;
+            line-height: 3rem;
+            padding-right: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .marginalia {
+            position: absolute;
+            font-family: 'Dancing Script', cursive;
+            font-size: 0.9rem;
+            color: var(--sage);
+            background: rgba(135, 169, 107, 0.1);
+            padding: 0.5rem;
+            border-radius: 4px;
+            border-left: 2px solid var(--sage);
+            max-width: 200px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        
+        .marginalia.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .header {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: url('resources/hero-manuscript.png') center/cover;
+            background-blend-mode: overlay;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(244, 241, 232, 0.95);
+            border-radius: 12px;
+            border: 4px solid var(--gold);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--burgundy);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--sepia);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+        
+        .transformation-tool {
+            background: rgba(232, 224, 208, 0.95);
+            border: 3px solid var(--gold);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--burgundy);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .upload-area {
+            border: 2px dashed var(--sage);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(135, 169, 107, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            background: rgba(135, 169, 107, 0.2);
+            border-color: var(--burgundy);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--sage);
+            margin-bottom: 1rem;
+        }
+        
+        .input-methods {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .method-btn {
+            background: var(--burgundy);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .method-btn:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .constraint-input {
+            background: rgba(255,255,255,0.8);
+            border: 2px solid var(--sage);
+            border-radius: 6px;
+            padding: 0.8rem;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            color: var(--sepia);
+            width: 100%;
+            margin: 1rem 0;
+        }
+        
+        .transform-btn {
+            background: linear-gradient(45deg, var(--gold), var(--burgundy));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 2rem auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .transform-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+        
+        .transform-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .transform-btn:hover::before {
+            left: 100%;
+        }
+        
+        .featured-recipes {
+            padding: 4rem 2rem;
+            background: rgba(232, 224, 208, 0.5);
+        }
+        
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--burgundy);
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gold);
+        }
+        
+        .recipe-carousel {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .recipe-card {
+            background: rgba(244, 241, 232, 0.95);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 0 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .recipe-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .recipe-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--burgundy);
+            margin-bottom: 0.5rem;
+        }
+        
+        .recipe-description {
+            font-size: 0.95rem;
+            color: var(--sepia);
+            margin-bottom: 1rem;
+        }
+        
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--sage);
+            font-family: 'Fira Mono', monospace;
+        }
+        
+        .wisdom-section {
+            padding: 4rem 2rem;
+            background: rgba(135, 169, 107, 0.1);
+        }
+        
+        .wisdom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .wisdom-card {
+            background: rgba(244, 241, 232, 0.95);
+            border: 2px solid var(--sage);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .wisdom-card:hover {
+            border-color: var(--burgundy);
+            transform: translateY(-3px);
+        }
+        
+        .wisdom-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .wisdom-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: var(--burgundy);
+            margin-bottom: 1rem;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(60, 36, 21, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-link {
+            color: var(--parchment);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: var(--gold);
+            background: rgba(184, 134, 11, 0.2);
+        }
+        
+        .nav-link.active {
+            color: var(--gold);
+            border-bottom: 2px solid var(--gold);
+        }
+        
+        .footer {
+            background: var(--sepia);
+            color: var(--parchment);
+            text-align: center;
+            padding: 2rem;
+            margin-bottom: 80px;
+        }
+        
+        .footer-text {
+            font-family: 'Crimson Text', serif;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .input-methods {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .wisdom-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation {
+                flex-wrap: wrap;
+                gap: 1rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .nav-link {
+                font-size: 0.9rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+        
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+        }
+        
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s ease;
+        }
+        
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Parchment Background Canvas -->
+    <canvas id="parchmentCanvas" class="manuscript-bg"></canvas>
+    
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="main-title">The Glutenberg Bible</h1>
+            <p class="subtitle">Ancient Wisdom for Modern Gluten-Free Living</p>
+            <p class="drop-cap">I</p>
+            <p>n the beginning, there was wheat, and for many, it was good. But as time passed, we discovered that for some, this ancient grain held not sustenance, but suffering. Thus began our journey into the realm of gluten-free living, a path fraught with challenges, discoveries, and ultimately, delicious rewards.</p>
+            
+            <div class="marginalia" style="right: -220px; top: 100px;">
+                <strong>Scholar's Note:</strong> The transformation of ingredients is both art and science, requiring patience and wisdom.
+            </div>
+        </div>
+    </header>
+    
+    <!-- Recipe Transformation Tool -->
+    <section class="transformation-tool fade-in">
+        <h2 class="tool-title">The Recipe Transformation Oracle</h2>
+        <p style="text-align: center; margin-bottom: 2rem; font-style: italic; color: var(--sage);">
+            Upload any recipe and witness its transformation into a healthier, gluten-free masterpiece
+        </p>
+        
+        <div class="upload-area" onclick="document.getElementById('recipeUpload').click()">
+            <div class="upload-icon">📜</div>
+            <p><strong>Click to upload your recipe</strong></p>
+            <p style="font-size: 0.9rem; color: var(--sage);">Supports images, text files, or paste text directly</p>
+            <input type="file" id="recipeUpload" style="display: none;" accept="image/*,.txt" multiple>
+        </div>
+        
+        <div class="input-methods">
+            <button class="method-btn" onclick="showTextInput()">
+                <span>📝</span> Type Recipe
+            </button>
+            <button class="method-btn" onclick="showVoiceInput()">
+                <span>🎤</span> Voice Input
+            </button>
+            <button class="method-btn" onclick="showUrlInput()">
+                <span>🔗</span> Import from URL
+            </button>
+        </div>
+        
+        <div id="textInputArea" style="display: none;">
+            <textarea class="constraint-input" rows="6" placeholder="Paste or type your recipe here..."></textarea>
+        </div>
+        
+        <div id="voiceInputArea" style="display: none;">
+            <div class="constraint-input" style="text-align: center; padding: 2rem;">
+                <button class="method-btn" onclick="startVoiceRecording()">
+                    <span>🎤</span> Start Recording
+                </button>
+                <p style="margin-top: 1rem; font-style: italic;">Speak your recipe naturally</p>
+            </div>
+        </div>
+        
+        <div id="urlInputArea" style="display: none;">
+            <input type="url" class="constraint-input" placeholder="Enter recipe URL from popular cooking sites...">
+        </div>
+        
+        <div style="margin: 2rem 0;">
+            <h3 style="font-family: 'Cinzel', serif; color: var(--burgundy); margin-bottom: 1rem;">Dietary Constraints & Preferences</h3>
+            <textarea class="constraint-input" rows="3" placeholder="List ingredients you have available, dietary restrictions, or preferences..."></textarea>
+        </div>
+        
+        <button class="transform-btn" onclick="transformRecipe()">
+            ✨ Transform Recipe ✨
+        </button>
+        
+        <div id="transformationResult" style="display: none; margin-top: 2rem; padding: 2rem; background: rgba(255,255,255,0.8); border-radius: 8px;">
+            <!-- Transformation results will appear here -->
+        </div>
+        
+        <div class="marginalia" style="left: -220px; top: 150px;">
+            <strong>Alchemical Wisdom:</strong> The art of substitution requires understanding the essence of each ingredient.
+        </div>
+    </section>
+    
+    <!-- Featured Recipes -->
+    <section class="featured-recipes">
+        <h2 class="section-title">Sacred Recipes</h2>
+        
+        <div class="recipe-carousel">
+            <div class="splide" id="recipeSplide">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="recipe-card">
+                                <img src="resources/banana-bread-art.png" alt="Gluten-Free Banana Bread" class="recipe-image">
+                                <h3 class="recipe-title">The Levenly Father's Blessing</h3>
+                                <p class="recipe-description">A divine banana bread that transforms humble ingredients into something extraordinary</p>
+                                <div class="recipe-meta">
+                                    <span>⏱️ 60 min</span>
+                                    <span>👥 10-12 servings</span>
+                                    <span>⭐ Easy</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="recipe-card">
+                                <img src="resources/lasagna-art.png" alt="Gluten-Free Lasagna" class="recipe-image">
+                                <h3 class="recipe-title">Layers of Love</h3>
+                                <p class="recipe-description">A warm, comforting embrace in the form of food, free from gluten but full of flavor</p>
+                                <div class="recipe-meta">
+                                    <span>⏱️ 90 min</span>
+                                    <span>👥 8 servings</span>
+                                    <span>⭐ Medium</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="recipe-card">
+                                <img src="resources/ancient-grains-art.png" alt="Ancient Grains" class="recipe-image">
+                                <h3 class="recipe-title">First Fruits</h3>
+                                <p class="recipe-description">Discover the wisdom of ancient grains that have sustained civilizations for millennia</p>
+                                <div class="recipe-meta">
+                                    <span>⏱️ 45 min</span>
+                                    <span>👥 4-6 servings</span>
+                                    <span>⭐ Easy</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="recipe-card">
+                                <img src="resources/alchemical-kitchen.png" alt="Alchemical Kitchen" class="recipe-image">
+                                <h3 class="recipe-title">Kitchen Alchemy</h3>
+                                <p class="recipe-description">Transform ordinary ingredients into extraordinary experiences through ancient wisdom</p>
+                                <div class="recipe-meta">
+                                    <span>⏱️ 30 min</span>
+                                    <span>👥 4 servings</span>
+                                    <span>⭐ Medium</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="recipe-card">
+                                <img src="resources/transformation-art.png" alt="Transformation" class="recipe-image">
+                                <h3 class="recipe-title">The Great Transformation</h3>
+                                <p class="recipe-description">Witness the magic of turning traditional recipes into gluten-free masterpieces</p>
+                                <div class="recipe-meta">
+                                    <span>⏱️ 75 min</span>
+                                    <span>👥 6-8 servings</span>
+                                    <span>⭐ Advanced</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="marginalia" style="right: -220px; top: 200px;">
+            <strong>Recipe Wisdom:</strong> Each dish tells a story of transformation and discovery.
+        </div>
+    </section>
+    
+    <!-- Wisdom Section -->
+    <section class="wisdom-section">
+        <h2 class="section-title">Sacred Knowledge</h2>
+        
+        <div class="wisdom-grid">
+            <div class="wisdom-card slide-in-left">
+                <div class="wisdom-icon">🌾</div>
+                <h3 class="wisdom-title">Ancient Grains</h3>
+                <p>Discover quinoa, amaranth, teff, and sorghum - the sacred grains that have sustained civilizations for thousands of years. Each grain carries the wisdom of our ancestors.</p>
+            </div>
+            
+            <div class="wisdom-card fade-in">
+                <div class="wisdom-icon">⚗️</div>
+                <h3 class="wisdom-title">Nutritional Alchemy</h3>
+                <p>Understand the science behind gluten-free cooking and baking. Learn how alternative binders and ancient techniques create perfect texture and flavor.</p>
+            </div>
+            
+            <div class="wisdom-card slide-in-right">
+                <div class="wisdom-icon">📚</div>
+                <h3 class="wisdom-title">Historical Wisdom</h3>
+                <p>Trace the evolution of gluten-free diets from ancient times to modern food science. Learn from the past to create a healthier future.</p>
+            </div>
+        </div>
+        
+        <div class="marginalia" style="left: -220px; top: 300px;">
+            <strong>Scholar's Insight:</strong> True wisdom comes from understanding both the science and the art of nourishment.
+        </div>
+    </section>
+    
+    <!-- Navigation -->
+    <nav class="navigation">
+        <a href="index.html" class="nav-link active">📜 The Bible</a>
+        <a href="recipes.html" class="nav-link">🍽️ Sacred Recipes</a>
+        <a href="wisdom.html" class="nav-link">🧠 Ancient Wisdom</a>
+        <a href="about.html" class="nav-link">👤 The Scribe</a>
+    </nav>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">© 2024 The Glutenberg Bible | Where ancient wisdom meets modern nourishment</p>
+    </footer>
+    
+    <script src="main.js"></script>
+</body>
+</html>

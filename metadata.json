@@ -1,0 +1,7 @@
+{
+  "name": "The Glutenberg Bible",
+  "description": "Ancient Wisdom for Modern Gluten-Free Living. An immersive culinary application featuring the Recipe Transformation Oracle, Sacred Recipes, and Ancient Wisdom.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

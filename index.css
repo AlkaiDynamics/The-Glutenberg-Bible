@@ -1,0 +1,88 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --parchment: #F4F1E8;
+  --vellum: #E8E0D0;
+  --sepia: #3C2415;
+  --burgundy: #722F37;
+  --gold: #B8860B;
+  --sage: #87A96B;
+  --dusty-rose: #D4A574;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--parchment);
+  color: var(--sepia);
+  font-family: 'Crimson Text', serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--vellum);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--burgundy);
+}
+
+.font-mono-custom {
+  font-family: 'Fira Mono', monospace;
+}
+
+.drop-cap {
+  font-family: 'Cinzel', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--burgundy);
+  float: left;
+  line-height: 3rem;
+  padding-right: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.marginalia {
+  border-left: 3px solid var(--sage);
+  background: rgba(135, 169, 107, 0.1);
+  font-family: 'Dancing Script', cursive;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: var(--sepia);
+}
+
+.illuminated-border {
+  border: 4px double var(--gold);
+  padding: 2px;
+  position: relative;
+}
+
+.illuminated-border::after {
+  content: '';
+  position: absolute;
+  top: -10px; left: -10px; right: -10px; bottom: -10px;
+  border: 2px solid var(--burgundy);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.parchment-texture {
+  background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+  background-blend-mode: multiply;
+}
+
+/* Painting Effect for images */
+.painting-effect {
+  filter: contrast(1.1) saturate(1.2) sepia(0.2);
+}
