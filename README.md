@@ -1,195 +1,115 @@
-# DRRSE v4.2 Prompts for Google AI Studio
+# The Glutenberg Bible
 
-## Quick Start Guide
+**Ancient Wisdom for Modern Gluten-Free Living**
 
-### Option 1: Single Master Prompt (Recommended for most users)
+The Glutenberg Bible is an immersive culinary application and a comprehensive guide to gluten-free living. It blends historical context with modern insights, offering a wealth of delicious recipes that transform humble ingredients into extraordinary experiences.
 
-**File**: `DRRSE_v4.2_Single_Master_Prompt.txt`
+![The Glutenberg Bible](https://placehold.co/600x200/2b1d16/B8860B?text=The+Glutenberg+Bible)
 
-This is the easiest way to get started. Copy the entire contents of this file into a new Google AI Studio conversation.
+## 📖 About
 
-**Setup Steps:**
-1. Create new conversation in Google AI Studio
-2. Copy entire `DRRSE_v4.2_Single_Master_Prompt.txt` into the system prompt
-3. Enable tools: web_search, code_execution, pdf_parser, visualization
-4. Start with your research topic
-
-**Best for:**
-- Single-session research
-- Quick setup
-- All-in-one approach
+This project is a React-based web application that serves as a digital cookbook and wisdom repository. It features:
+*   **The Alchemist's Tool:** An AI-powered feature to transmute traditional recipes into gluten-free masterpieces.
+*   **Sacred Recipes:** A gallery of curated gluten-free recipes ranging from quick snacks to elaborate feasts.
+*   **Ancient Wisdom:** Educational content about ancient grains (Quinoa, Amaranth, Teff, Sorghum) and the history of gluten-free diets.
+*   **The Scribe:** The personal journey and philosophy behind the book.
 
 ---
 
-### Option 2: Dual Master Prompts (Advanced)
+## 🍽️ Featured Recipes
 
-**Files**: 
-- `DRRSE_v4.2_Backend_Master_Prompt.txt`
-- `DRRSE_v4.2_Frontend_Master_Prompt.txt`
+Here is a taste of the divine creations you will find within The Glutenberg Bible:
 
-This separates the system into backend (logic) and frontend (UX) components.
+### 🍌 The Levenly Father’s Blessing: Gluten-Free Banana Bread
+> *"When we embrace our Father’s blessing, we rise to our own potential."*
 
-**Setup Steps:**
-1. Create Conversation 1: Backend
-   - Copy `DRRSE_v4.2_Backend_Master_Prompt.txt` as system prompt
-   - Enable all tools
-   - Name it "DRRSE Backend"
+A divine banana bread that transforms humble ingredients into something extraordinary. Those who develop their skills of turning ordinary ingredients into extraordinary experiences for others possess a Power that few on this earth will ever attain.
 
-2. Create Conversation 2: Frontend
-   - Copy `DRRSE_v4.2_Frontend_Master_Prompt.txt` as system prompt
-   - Enable display/interaction tools
-   - Name it "DRRSE Frontend"
+**Key Ingredients:**
+*   3 ripe bananas, mashed (specled with brown spots for sweetness)
+*   1/4 cup coconut oil, melted
+*   1/4 cup honey
+*   2 large eggs
+*   1 1/2 cups Gluten-Free Baking Mix (Bob's Red Mill 1-to-1 recommended)
+*   Cinnamon and Vanilla for warmth
 
-3. Coordinate between conversations via shared storage/state
-
-**Best for:**
-- Complex research workflows
-- Custom UX requirements
-- Separated concerns
+**The Ritual:**
+1.  **Prep:** Preheat oven to 350°F. Grease a loaf pan.
+2.  **Combine:** Amalgamate mashed bananas, oil, honey, eggs, and vanilla.
+3.  **Mix:** Whisk dry ingredients separately, then gently fold into the wet mixture.
+4.  **Bake:** Pour batter into the pan and bake for 50-60 minutes.
 
 ---
 
-## What Each File Contains
+### 🍝 Layers of Love: Gluten-Free Lasagna
+> *"In the embrace of Love, we find true nourishment."*
 
-### Core Prompts
+This lasagna isn't just a dish; it's a warm, comforting embrace in the form of food. Free from gluten but full of flavor, it's a testament to the power of great cooking.
 
-| File | Purpose | When to Use |
-|------|---------|-------------|
-| `DRRSE_v4.2_Single_Master_Prompt.txt` | Complete system in one prompt | Recommended for most users |
-| `DRRSE_v4.2_Backend_Master_Prompt.txt` | Phase execution engine | Backend of dual-prompt setup |
-| `DRRSE_v4.2_Frontend_Master_Prompt.txt` | UX and interaction manager | Frontend of dual-prompt setup |
+**Key Ingredients:**
+*   Gluten-free lasagna noodles
+*   1 lb lean ground beef & 1 lb Italian sausage
+*   2 jars high-quality marinara sauce
+*   Ricotta, Mozzarella, and Parmesan cheese
+*   Fresh basil and parsley
 
-### Documentation Files (Parent Directory)
-
-| File | Contents |
-|------|----------|
-| `DRRSE_v4.2_Master_Project_Document.md` | Complete system documentation |
-| `DRRSE_v4.2_Expanded_Phases_4-7.md` | Detailed technical specifications |
-| `DRRSE_v4.2_Google_AI_Studio_Prompts.md` | All prompts with explanations |
-
----
-
-## Key Features
-
-### Dual-Regime System
-- **Exploratory (Phases 0-3)**: Honor hunches, symbolic thinking, sparse data OK
-- **Validation (Phases 4-7)**: Bayesian rigor, confidence authority, structural validation
-
-### Parallel Agents (Phase 5)
-- **ADV** (Adversarial): Find contradictions and gaps
-- **EVO** (Evolutionary): Generate hypothesis variants with GA
-- **ND** (Neurodivergent): Alternative cognitive perspectives (firewalled)
-- **SYS** (Systems): Feedback loop and pathology detection
-
-### Safety Mechanisms
-- **Confidence Authority**: Only Phase 6 can mutate confidence
-- **Pattern Freeze**: No new patterns after Phase 4
-- **Shadow Monitor**: Divergence detection with alternate models
-- **Epistemic Budget**: Prevents runaway speculation
-
-### Neurodivergent-Friendly UX
-- **ADHD-Safe**: Phase closure statements, discrete progress, focus anchors
-- **Aphasia-Safe**: Fragment reconstruction, multiple choice clarification
-- **No Mid-Run Interruption**: Streaming only during automation
-- **Retroactive Controls**: Post-phase handles for clarification and testing
+**The Ritual:**
+1.  **Foundation:** Brown the meats and simmer with marinara and herbs.
+2.  **Creamy Layer:** Mix ricotta with egg, parmesan, and herbs.
+3.  **Assembly:** Layer sauce, noodles, and cheese mixture in a baking dish.
+4.  **Bake:** Cover and bake at 375°F for 25 mins, then uncover for another 25 mins until bubbly and golden.
 
 ---
 
-## Phase Overview
+### 🥩 Feast and Be Well: Gluten-Free Beef Wellington
+> *"In the practice of tradition, we celebrate what our forefathers bore."*
 
-| Phase | Name | Regime | Authority | Key Output |
-|-------|------|--------|-----------|------------|
-| 0 | Onboarding | Exploratory | Suggest confidence | Initial research context |
-| 1 | Method Extraction | Exploratory | Suggest confidence | Methods + patterns |
-| 2 | Micro-Mechanisms | Exploratory | Suggest confidence | Verified claims + simulations |
-| 3 | Macro-Genealogy | Exploratory | Suggest confidence | Genealogy + posteriors |
-| 4 | Derivation Lock | Validation | Structure validity | Locked derivation graph |
-| 5 | Parallel Agents | Validation | Side-channels | Agent findings + diffs |
-| 6 | Synthesis | Validation | **CONFIDENCE MUTATION** | Final synthesis |
-| 7 | Finalization | Validation | Style transforms | Multi-voice exports |
-| Post | Archival | Validation | Meta-learning | Next session prep |
+And so, the King commanded that a feast be prepared, and the Beef Wellington, wrapped in its golden mantle, was the centerpiece.
 
----
+**Key Ingredients:**
+*   Center-cut beef tenderloin (approx. 2 lbs)
+*   Gluten-free puff pastry sheet
+*   4 oz Prosciutto, thinly sliced
+*   Mushroom Duxelles (finely chopped mushrooms, shallots, garlic, white wine)
+*   Dijon mustard
 
-## Configuration Required
-
-### Google AI Studio Tools
-- ✅ web_search (general search)
-- ✅ code_execution (Python/R)
-- ✅ pdf_parser (document processing)
-- ✅ visualization (auto-charts)
-
-### Optional but Recommended
-- Memory persistence (for session resume)
-- File attachment capability
-- Long context window (for complex research)
+**The Ritual:**
+1.  **Duxelles:** Cook mushrooms with aromatics until moisture evaporates.
+2.  **Sear:** Season and sear the beef tenderloin on all sides. Brush with mustard.
+3.  **Wrap:** Lay out pastry, top with prosciutto and duxelles, then place beef in center. Wrap tightly.
+4.  **Bake:** Brush with egg wash and bake at 400°F for 25-30 minutes.
 
 ---
 
-## Troubleshooting
+## 🛠️ Getting Started
 
-### Common Issues
+### Prerequisites
+*   Node.js (v18+)
+*   npm or yarn
 
-**"System stuck in loop"**
-- Check epistemic budget > 0.2
-- Verify no surprise events blocking progress
-- Review shadow alerts
+### Installation
 
-**"Confidence not updating"**
-- Confirm you're in Phase 6 (only phase with authority)
-- Check for shadow alerts preventing updates
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/AlkaiDynamics/The-Glutenberg-Bible.git
+    ```
+2.  Navigate to the project directory:
+    ```bash
+    cd The-Glutenberg-Bible
+    ```
+3.  Install dependencies:
+    ```bash
+    npm install
+    ```
+4.  Set up environment variables:
+    *   Create a `.env` file in the root directory.
+    *   Add your Google Gemini API key: `VITE_API_KEY=your_api_key_here` (Note: The code uses `process.env.API_KEY`, ensure your build process handles this or update `vite.config.ts` accordingly).
 
-**"Pattern detection not working"**
-- Patterns freeze after Phase 4 (by design)
-- Only re-scoring/deprecation allowed in Phase 6
+5.  Start the development server:
+    ```bash
+    npm run dev
+    ```
 
-**"Agents timing out"**
-- Normal for complex problems
-- Partial outputs are preserved
-- System continues with available results
+## 📜 License
 
----
-
-## Tips for Success
-
-1. **Start Simple**: Begin with single master prompt
-2. **Expect Exploration**: 20% speculative is by design
-3. **Trust the Process**: Phases are automated for a reason
-4. **Use Retroactive Handles**: Clarify, stress-test, alt-voice after phases
-5. **Resume Sessions**: Don't lose progress - use checkpoint system
-6. **Monitor Confidence**: Qualitative display shows structural vs intuitive
-
----
-
-## Research Context Examples
-
-**Good Starting Inputs:**
-- "I'm exploring connections between Fludd's symbolism and Kepler's math"
-- "Looking for patterns in ancient language evolution"
-- "Testing hypothesis about DMT binding to gold nanoparticles"
-- "Tracing historical development of systems thinking"
-
-**Fragment Inputs (OK):**
-- "fludd kepler ratio geometric patterns"
-- "cold fusion resonant surface binding"
-- "language annunciation ancient"
-- "symbolic systems resonance"
-
-The system will reconstruct and clarify your intent.
-
----
-
-## Support & Feedback
-
-This system is designed for:
-- Users who think in symbols, systems, and patterns
-- Researchers exploring speculative hypotheses
-- Neurodivergent users needing cognitive support
-- Anyone wanting rigorous validation of intuitive insights
-
-The dual-regime approach ensures your exploratory thinking is honored while 
-maintaining the structural rigor needed for reliable results.
-
----
-
-*Happy Researching!*
+This project is licensed under the MIT License.
